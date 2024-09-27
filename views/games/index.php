@@ -1,3 +1,5 @@
+<h2 class="text-center mt-3 mb-3">Liste des jeux</h2>
+
 <div class="row">
     <?php
     /* @var $games Game[] */
