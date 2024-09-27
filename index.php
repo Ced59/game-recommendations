@@ -2,15 +2,18 @@
 
 require_once __DIR__ . '/utils/Database.php';
 require_once __DIR__ . '/repositories/GameRepository.php';
+require_once __DIR__ . '/repositories/UserRepository.php';
 
 use Controllers\HomeController;
 use Controllers\GameController;
 use Repositories\GameRepository;
+use Repositories\UserRepository;
 use Utils\Database;
 
 // Déclaration des services pour injection de dépendances
 $pdo = Database::getInstance()->getPDO();
 $gameRepository = new GameRepository($pdo);
+$userRepository = new UserRepository($pdo);
 
 ?>
 
@@ -34,8 +37,12 @@ $gameRepository = new GameRepository($pdo);
     // implémentation du routing
     if ($url == '/GameRating/' || $url == '/GameRating/index.php') {
         require_once 'controllers/HomeController.php';
-        $controller = new HomeController();
-        $controller->index();
+        $controller = new HomeController($userRepository);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->login();
+        } else {
+            $controller->index();
+        }
     } elseif ($url == '/GameRating/games.php') {
         require_once 'controllers/GameController.php';
         $controller = new GameController($gameRepository);

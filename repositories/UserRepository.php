@@ -16,7 +16,7 @@ class UserRepository {
 
     public function findUserByUsername($pseudo): ?User {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE pseudo = :pseudo");
-        $stmt->bindParam(':username', $pseudo);
+        $stmt->bindParam(':pseudo', $pseudo);
         $stmt->execute();
 
         $userData = $stmt->fetch(PDO::FETCH_ASSOC);
