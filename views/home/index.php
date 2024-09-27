@@ -1,1 +1,1 @@
-<h1>Test routing</h1>
+<h1>Test Home Controller</h1>
