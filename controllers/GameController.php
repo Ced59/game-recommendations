@@ -15,8 +15,6 @@ class GameController {
 
         $games = $gameRepository->getAllGames();
 
-        var_dump($games);
-
         require_once __DIR__ . "/../views/games/index.php";
     }
 }
