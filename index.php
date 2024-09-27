@@ -1,15 +1,9 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 use Controllers\HomeController;
 use Controllers\GameController;
 
 $url = $_SERVER['REQUEST_URI'];
-
-echo($url);
 
 if ($url == '/GameRating/' || $url == '/GameRating/index.php') {
     require_once 'controllers/HomeController.php';
