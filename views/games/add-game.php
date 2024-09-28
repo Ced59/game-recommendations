@@ -33,7 +33,7 @@
 
     <div class="form-group">
         <label for="release_year">Année de sortie :</label>
-        <input type="number" class="form-control" id="release_year" name="release_year" required>
+        <input type="number" class="form-control" id="release_year" name="release_year" min="1960" max="2100" required>
     </div>
 
     <button type="submit" class="btn btn-primary mt-3">Ajouter le jeu</button>

@@ -46,19 +46,21 @@ class GameController {
             if (!$title || !$developer || !$genre || !$release_year) {
                 $error = "Veuillez remplir tous les champs obligatoires.";
             } else {
-                $newGame = new Game(null, $title, $developer, $genre, $description, $release_year);
 
-                $success = $this->gameRepository->createGame($newGame);
-
-                if ($success) {
-                    $success = "Le jeu a été ajouté avec succès !";
+                if ($release_year < 1960 || $release_year > 2100) {
+                    $error = "L'année de sortie doit être comprise entre 1960 et 2100.";
                 } else {
-                    $error = "Une erreur est survenue lors de l'ajout du jeu.";
+                    $newGame = new Game(null, $title, $developer, $genre, $description, $release_year);
+
+                    $success = $this->gameRepository->createGame($newGame);
+
+                    if ($success) {
+                        $success = "Le jeu a été ajouté avec succès !";
+                    } else {
+                        $error = "Une erreur est survenue lors de l'ajout du jeu."; //TODO discriminer le type d'erreur (si titre en doublon ou autre) => ce qui peut se faire via la captation d'exception ou via des conditions dans le Repository!
+                    }
                 }
             }
-        } else {
-            $error = "";
-            $success = "";
         }
 
         // Passer les variables à la vue
