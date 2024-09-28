@@ -69,17 +69,11 @@ class GameController {
 
     public function viewGameDetail(): void
     {
-        var_dump($_GET['idGame']);
-
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['idGame'])) {
             $gameId = filter_input(INPUT_GET, 'idGame', FILTER_VALIDATE_INT);
 
-            var_dump($gameId);
-
             if ($gameId) {
                 $game = $this->gameRepository->findGameById((int)$gameId);
-
-                var_dump($game);
 
                 if ($game != null) {
                     require_once __DIR__ . '/../views/games/detail-game.php';
