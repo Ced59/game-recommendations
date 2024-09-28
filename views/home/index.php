@@ -69,8 +69,8 @@
             <?php /* @var $users User[] */
             foreach ($users as $user): ?>
                 <tr>
-                    <td><?= $user->getPseudo() ?></td>
-                    <td><?= $user->getPassword() ?></td>
+                    <td><?= htmlspecialchars($user->getPseudo(), ENT_QUOTES, 'UTF-8') ?></td>
+                    <td><?= htmlspecialchars($user->getPassword(), ENT_QUOTES, 'UTF-8') ?></td>
                     <td>
                         <form action="/GameRating/index.php" method="post">
                             <input type="hidden" name="action_name" value="login">

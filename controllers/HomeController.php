@@ -21,8 +21,8 @@ class HomeController {
 
     public function login(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $pseudo = $_POST['pseudo'];
-            $password = $_POST['password'];
+            $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_UNSAFE_RAW);
+            $password = filter_input(INPUT_POST, 'password', FILTER_UNSAFE_RAW);
 
             $user = $this->userRepository->findUserByUsername($pseudo);
 
@@ -53,8 +53,8 @@ class HomeController {
 
     public function register(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $pseudo = $_POST['pseudo'];
-            $password = $_POST['password'];
+            $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_UNSAFE_RAW);
+            $password = filter_input(INPUT_POST, 'password', FILTER_UNSAFE_RAW);
 
             $newUser = new User($pseudo, $password);
 
