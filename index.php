@@ -55,6 +55,11 @@ $userRepository = new UserRepository($pdo);
         require_once 'controllers/GameController.php';
         $controller = new GameController($gameRepository);
         $controller->index();
+    } elseif ($url == '/GameRating/add-game.php') {
+        require_once 'controllers/GameController.php';
+        $controller = new GameController($gameRepository);
+        $controller->addGame();
+
     } else {
         http_response_code(404);
         echo "Page not found";

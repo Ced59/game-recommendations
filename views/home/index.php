@@ -3,6 +3,10 @@
 <?php if (isset($_SESSION['pseudo'])): ?>
     <p class="text-center">Vous êtes authentifié en tant que <?= htmlspecialchars($_SESSION['pseudo'], ENT_QUOTES, 'UTF-8') ?></p>
 
+    <div class="text-center mb-3">
+        <a href="/GameRating/add-game.php" class="btn btn-primary">Ajouter un jeu</a>
+    </div>
+
     <form class="text-center" action="/GameRating/index.php" method="post">
         <input type="hidden" name="action_name" value="logout">
         <button type="submit" class="btn btn-secondary">Se déconnecter</button>

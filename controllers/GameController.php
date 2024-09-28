@@ -18,4 +18,9 @@ class GameController {
 
         require_once __DIR__ . "/../views/games/index.php";
     }
+
+    public function addGame(): void {
+
+        require_once __DIR__ . "/../views/games/add-game.php";
+    }
 }
