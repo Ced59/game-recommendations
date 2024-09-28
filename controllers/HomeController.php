@@ -37,10 +37,9 @@ class HomeController {
                     require_once __DIR__ . '/../views/home/index.php';
 
                 }
-                session_start();
                 $_SESSION['user_id'] = $user->getId();
                 $_SESSION['pseudo'] = $user->getPseudo();
-                //TODO Ajouter redirection
+                require_once __DIR__ . '/../views/home/index.php';
                 exit();
             }
         } else {
@@ -71,5 +70,11 @@ class HomeController {
             $users = $this->userRepository->getAllUser();
             require_once __DIR__ . '/../views/home/index.php';
         }
+    }
+
+    public function logout(): void {
+        session_destroy();
+        header('Location: /GameRating/index.php');
+        exit();
     }
 }
