@@ -1,5 +1,9 @@
 <?php
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once __DIR__ . '/utils/Database.php';
 require_once __DIR__ . '/repositories/GameRepository.php';
 require_once __DIR__ . '/repositories/UserRepository.php';
@@ -23,7 +27,7 @@ $userRepository = new UserRepository($pdo);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameRating</title>
+    <title>Game Recommendations</title>
     <link rel="stylesheet" href="public/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
@@ -42,6 +46,8 @@ $userRepository = new UserRepository($pdo);
             $controller->login();
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action_name'] === 'register') {
             $controller->register();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action_name'] === 'logout') {
+            $controller->logout();
         } else {
             $controller->index();
         }
