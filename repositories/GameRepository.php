@@ -6,6 +6,7 @@ require_once __DIR__ . '/../models/games/Game.php';
 
 use Game;
 use PDO;
+use PDOException;
 
 class GameRepository {
     private PDO $pdo;
@@ -43,5 +44,28 @@ class GameRepository {
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return (int) $result['count'];
+    }
+
+    public function createGame(Game $game): bool {
+        $stmt = $this->pdo->prepare("INSERT INTO games (title, developer, genre, description, release_year) 
+                                 VALUES (:title, :developer, :genre, :description, :release_year)");
+
+        $title = $game->getTitle();
+        $developer = $game->getDeveloper();
+        $genre = $game->getGenre();
+        $description = $game->getDescription();
+        $releaseYear = $game->getReleaseYear();
+
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':developer', $developer);
+        $stmt->bindParam(':genre', $genre);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':release_year', $releaseYear);
+
+        try {
+            return $stmt->execute();
+        } catch (PDOException) {
+            return false;
+        }
     }
 }
