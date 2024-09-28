@@ -32,6 +32,8 @@ $userRepository = new UserRepository($pdo);
 </head>
 <body>
 
+<?php include 'views/partials/navbar.php'; ?>
+
 <div class="container">
 
     <?php

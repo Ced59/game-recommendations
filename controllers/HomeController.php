@@ -39,7 +39,7 @@ class HomeController {
                 }
                 $_SESSION['user_id'] = $user->getId();
                 $_SESSION['pseudo'] = $user->getPseudo();
-                require_once __DIR__ . '/../views/home/index.php';
+                header('Location: /GameRating/index.php');
                 exit();
             }
         } else {
