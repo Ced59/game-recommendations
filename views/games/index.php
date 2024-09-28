@@ -1,5 +1,11 @@
 <h2 class="text-center mt-3 mb-3">Liste des jeux</h2>
 
+<?php
+/* @var $gamesCount int */
+?>
+<h5 class="text-center mb-4">Il y a <?= $gamesCount ?> jeu(x) au total dans la base.</h5>
+
+
 <div class="row">
     <?php
     /* @var $games Game[] */

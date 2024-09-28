@@ -14,6 +14,7 @@ class GameController {
     public function index(): void {
 
         $games = $this->gameRepository->getAllGames();
+        $gamesCount = $this->gameRepository->getCountGames();
 
         require_once __DIR__ . "/../views/games/index.php";
     }

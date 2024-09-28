@@ -36,4 +36,12 @@ class GameRepository {
 
         return $games;
     }
+
+    public function getCountGames(): int {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) as count FROM games");
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return (int) $result['count'];
+    }
 }
