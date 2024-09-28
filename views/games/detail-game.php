@@ -2,21 +2,27 @@
 /* @var $game Game */
 ?>
 
-<h2 class="text-center mt-4 mb-3">Détails du jeu <?= $game->getTitle() ?></h2>
+    <h2 class="text-center mt-4 mb-3">Détails du jeu <?= $game->getTitle() ?></h2>
 
-<div class="row justify-content-center">
-    <div class="col-md-6 mt-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title"><?= $game->getTitle() ?></h5>
-                <p class="card-text">Développeur: <?= $game->getDeveloper() ?></p>
-                <p class="card-text">Genre: <?= $game->getGenre() ?></p>
-                <p class="card-text">Description: <?= $game->getDescription() ?></p>
-                <p class="card-text">Année de sortie: <?= $game->getReleaseYear() ?></p>
+    <div class="row justify-content-center">
+        <div class="col-md-6 mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><?= $game->getTitle() ?></h5>
+                    <p class="card-text">Développeur: <?= $game->getDeveloper() ?></p>
+                    <p class="card-text">Genre: <?= $game->getGenre() ?></p>
+                    <p class="card-text">Description: <?= $game->getDescription() ?></p>
+                    <p class="card-text">Année de sortie: <?= $game->getReleaseYear() ?></p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col-12">
+            <?php include __DIR__ . '/../partials/messages.php'; ?>
+        </div>
+    </div>
 
 <?php if (isset($_SESSION['user_id'])): ?>
     <div class="row justify-content-center">
@@ -25,10 +31,12 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">Noter ce jeu</h5>
                     <form action="/GameRating/games.php" method="post">
+                        <input type="hidden" name="action_name" value="rating">
+                        <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
                         <input type="hidden" name="idGame" value="<?= $game->getId() ?>">
                         <div class="mb-3 text-center">
                             <label for="rating" class="form-label">Note (1 à 10)</label>
-                            <select class="form-select" id="rating" name="rating">
+                            <select class="form-select" id="rating_value" name="rating_value">
                                 <?php for ($i = 1; $i <= 10; $i++): ?>
                                     <option value="<?= $i ?>"><?= $i ?></option>
                                 <?php endfor; ?>

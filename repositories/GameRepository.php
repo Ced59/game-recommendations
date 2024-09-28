@@ -95,4 +95,44 @@ class GameRepository {
             return null;
         }
     }
+
+    public function saveRating(int $userId, int $gameId, int $ratingValue): bool
+    {
+        $checkStmt = $this->pdo->prepare("SELECT COUNT(*) FROM user_ratings WHERE user_id = :userId AND game_id = :gameId");
+        $checkStmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $checkStmt->bindParam(':gameId', $gameId, \PDO::PARAM_INT);
+        $checkStmt->execute();
+        $existingRatingCount = $checkStmt->fetchColumn();
+
+        if ($existingRatingCount > 0) {
+            return false;
+        }
+
+        try {
+            $sql = "INSERT INTO user_ratings (user_id, game_id, rating) VALUES (:userId, :gameId, :ratingValue)";
+
+            $stmt = $this->pdo->prepare($sql);
+
+            $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+            $stmt->bindParam(':gameId', $gameId, \PDO::PARAM_INT);
+            $stmt->bindParam(':ratingValue', $ratingValue, \PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return true;
+        } catch (PDOException) {
+            return false;
+        }
+    }
+
+    public function gameExists(int $gameId): bool
+    {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM games WHERE id = :gameId");
+        $stmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $count = $stmt->fetchColumn();
+
+        return $count > 0;
+    }
 }

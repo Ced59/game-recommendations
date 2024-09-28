@@ -55,15 +55,19 @@ $userRepository = new UserRepository($pdo);
         }
     } elseif (str_contains($url, '/GameRating/games.php?') && isset($_GET['idGame'])) {
         require_once 'controllers/GameController.php';
-        $controller = new GameController($gameRepository);
+        $controller = new GameController($gameRepository, $userRepository);
         $controller->viewGameDetail();
+    } elseif ($url == '/GameRating/games.php' && isset($_POST['action_name']) && $_POST['action_name'] === 'rating') {
+        require_once 'controllers/GameController.php';
+        $controller = new GameController($gameRepository, $userRepository);
+        $controller->ratingGame();
     } elseif ($url == '/GameRating/games.php') {
         require_once 'controllers/GameController.php';
-        $controller = new GameController($gameRepository);
+        $controller = new GameController($gameRepository, $userRepository);
         $controller->index();
     } elseif ($url == '/GameRating/add-game.php') {
         require_once 'controllers/GameController.php';
-        $controller = new GameController($gameRepository);
+        $controller = new GameController($gameRepository, $userRepository);
         $controller->addGame();
     } else {
         http_response_code(404);

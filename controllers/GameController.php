@@ -7,13 +7,17 @@ require_once  __DIR__ . '/../models/games/Game.php';
 
 use Game;
 use Repositories\GameRepository;
+use Repositories\UserRepository;
 use Utils\Auth;
 
 class GameController {
     private GameRepository $gameRepository;
-    public function __construct(GameRepository $gameRepository)
+    private UserRepository $userRepository;
+
+    public function __construct(GameRepository $gameRepository, UserRepository $userRepository)
     {
         $this->gameRepository = $gameRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function index(): void {
@@ -85,6 +89,45 @@ class GameController {
                 $error = "Error (invalid id?)";
                 require_once __DIR__ . '/../views/home/index.php';
             }
+        }
+    }
+
+    public function ratingGame(): void
+    {
+        Auth::checkAuth();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action_name'] === 'rating') {
+
+            $userId = filter_input(INPUT_POST, 'user_id', FILTER_VALIDATE_INT);
+            $gameId = filter_input(INPUT_POST, 'idGame', FILTER_VALIDATE_INT);
+            $ratingValue = filter_input(INPUT_POST, 'rating_value', FILTER_VALIDATE_INT);
+
+            if (!$userId || !$gameId || !$ratingValue || $ratingValue < 1 || $ratingValue > 10) {
+                $error = "Erreur : données invalides ou note hors de la plage autorisée (1-10).";
+                require_once __DIR__ . '/../views/home/index.php';
+                return;
+            }
+
+            if (!$this->userRepository->userExists($userId) || !$this->gameRepository->gameExists($gameId)) {
+                $error = "Erreur : l'utilisateur ou le jeu spécifié n'existe pas.";
+                require_once __DIR__ . '/../views/home/index.php';
+                return;
+            }
+
+            $result = $this->gameRepository->saveRating($userId, $gameId, $ratingValue);
+
+            if ($result) {
+                $_SESSION['success'] = "Enregistrement de la note réussi";
+            } else {
+                $_SESSION['error'] = "Une erreur est survenue lors de l'enregistrement de la note.";
+            }
+
+            header("Location: /GameRating/games.php?idGame=$gameId");
+            exit;
+
+        } else {
+            header("Location: /GameRating/index.php");
+            exit;
         }
     }
 }
