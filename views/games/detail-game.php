@@ -1,0 +1,1 @@
+<h3>Detail game works!</h3>

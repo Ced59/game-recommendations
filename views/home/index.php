@@ -1,6 +1,13 @@
 <h1 class="text-center mt-3 mb-4">Bienvenue sur Game Recommendations !</h1>
 
 <?php if (isset($_SESSION['pseudo'])): ?>
+
+    <div class="row">
+        <div class="col-12">
+            <?php include __DIR__ . '/../partials/messages.php'; ?>
+        </div>
+    </div>
+
     <p class="text-center">Vous êtes authentifié en tant que <?= htmlspecialchars($_SESSION['pseudo'], ENT_QUOTES, 'UTF-8') ?></p>
     <p class="text-center mt-2 mb-3">Pour noter un jeu, allez sur la page "Voir tous les jeux" et cliquez sur celui que vous voulez noter.</p>
 

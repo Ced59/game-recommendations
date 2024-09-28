@@ -66,4 +66,31 @@ class GameController {
         // Passer les variables à la vue
         require_once __DIR__ . "/../views/games/add-game.php";
     }
+
+    public function viewGameDetail(): void
+    {
+        var_dump($_GET['idGame']);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['idGame'])) {
+            $gameId = filter_input(INPUT_GET, 'idGame', FILTER_VALIDATE_INT);
+
+            var_dump($gameId);
+
+            if ($gameId) {
+                $game = $this->gameRepository->findGameById((int)$gameId);
+
+                var_dump($game);
+
+                if ($game != null) {
+                    require_once __DIR__ . '/../views/games/detail-game.php';
+                } else {
+                    $error = "Jeu non trouvé";
+                    require_once __DIR__ . '/../views/home/index.php';
+                }
+            } else {
+                $error = "Error (invalid id?)";
+                require_once __DIR__ . '/../views/home/index.php';
+            }
+        }
+    }
 }

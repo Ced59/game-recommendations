@@ -68,4 +68,31 @@ class GameRepository {
             return false;
         }
     }
+
+    public function findGameById(int $gameId): ?Game
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM games WHERE id = :id");
+        $stmt->bindParam(':id', $gameId, PDO::PARAM_INT);
+
+        try {
+            $stmt->execute();
+            $gameData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($gameData) {
+                return new Game(
+                    $gameData['id'],
+                    $gameData['title'],
+                    $gameData['developer'],
+                    $gameData['genre'],
+                    $gameData['description'],
+                    $gameData['release_year']
+                );
+            } else {
+                return null;
+            }
+        } catch (PDOException) {
+
+            return null;
+        }
+    }
 }
