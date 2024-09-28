@@ -5,9 +5,11 @@ class User {
     private string $pseudo;
     private string $password;
 
-
-    public function __construct(int $id, string $pseudo, string $password) {
-        $this->setId($id);
+    // Dommage apparemment pas de surcharge de constructeur en PHP. Dû trouver solution alternative.
+    public function __construct(string $pseudo, string $password, int $id = null) {
+        if ($id !== null) {
+            $this->setId($id);
+        }
         $this->setPseudo($pseudo);
         $this->setPassword($password);
     }

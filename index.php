@@ -38,8 +38,10 @@ $userRepository = new UserRepository($pdo);
     if ($url == '/GameRating/' || $url == '/GameRating/index.php') {
         require_once 'controllers/HomeController.php';
         $controller = new HomeController($userRepository);
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action_name'] === 'login') {
             $controller->login();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action_name'] === 'register') {
+            $controller->register();
         } else {
             $controller->index();
         }
