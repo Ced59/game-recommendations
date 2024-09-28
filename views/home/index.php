@@ -2,9 +2,12 @@
 
 <?php if (isset($_SESSION['pseudo'])): ?>
     <p class="text-center">Vous êtes authentifié en tant que <?= htmlspecialchars($_SESSION['pseudo'], ENT_QUOTES, 'UTF-8') ?></p>
+    <p class="text-center mt-2 mb-3">Pour noter un jeu, allez sur la page "Voir tous les jeux" et cliquez sur celui que vous voulez noter.</p>
 
-    <div class="text-center mb-3">
+    <div class="text-center mt-3 mb-3">
         <a href="/GameRating/add-game.php" class="btn btn-primary">Ajouter un jeu</a>
+        <a href="/GameRating/games.php" class="btn btn-primary ms-2">Voir tous les jeux</a>
+        <a href="/GameRating/games.php" class="btn btn-primary ms-2">Voir mes notes</a>
     </div>
 
     <form class="text-center" action="/GameRating/index.php" method="post">
