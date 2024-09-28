@@ -52,3 +52,36 @@
     </div>
 </div>
 
+<div class="row mt-5">
+    <div class="col-12">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-light">
+            <tr>
+                <th colspan="3" class="text-center">Liste des utilisateurs</th>
+            </tr>
+            <tr>
+                <th class="col-4">Pseudo</th>
+                <th class="col-4">Password</th>
+                <th class="col-4">Login direct</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php /* @var $users User[] */
+            foreach ($users as $user): ?>
+                <tr>
+                    <td><?= $user->getPseudo() ?></td>
+                    <td><?= $user->getPassword() ?></td>
+                    <td>
+                        <form action="/GameRating/index.php" method="post">
+                            <input type="hidden" name="action_name" value="login">
+                            <input type="hidden" name="pseudo" value="<?= $user->getPseudo() ?>">
+                            <input type="hidden" name="password" value="<?= $user->getPassword() ?>">
+                            <button type="submit" class="btn btn-success">S'authentifier avec cet utilisateur</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
