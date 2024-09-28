@@ -9,7 +9,9 @@ class Game {
     private int $release_year;
 
     public function __construct($id, $title, $developer, $genre, $description, $release_year) {
-        $this->setId($id);
+        if ($id !== null) {
+            $this->setId($id);
+        }
         $this->setTitle($title);
         $this->setDeveloper($developer);
         $this->setGenre($genre);
