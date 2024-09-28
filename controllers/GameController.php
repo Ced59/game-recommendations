@@ -2,7 +2,10 @@
 
 namespace Controllers;
 
+require_once  __DIR__ . '/../utils/Auth.php';
+
 use Repositories\GameRepository;
+use Utils\Auth;
 
 class GameController {
     private GameRepository $gameRepository;
@@ -21,6 +24,7 @@ class GameController {
 
     public function addGame(): void {
 
+        Auth::checkAuth();
         require_once __DIR__ . "/../views/games/add-game.php";
     }
 }
