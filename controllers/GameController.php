@@ -154,8 +154,6 @@ class GameController {
 
         $userRatedGame->addRatedGames($this->gameRepository->getRatedGamesByUserId($userId));
 
-        var_dump($userRatedGame);
-
         require_once __DIR__ . '/../views/games/view-ratings.php';
     }
 }
