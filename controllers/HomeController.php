@@ -2,19 +2,28 @@
 
 namespace Controllers;
 
+use Repositories\GameRepository;
 use Repositories\UserRepository;
 use User;
 
 class HomeController {
     private UserRepository $userRepository;
+    private GameRepository $gameRepository;
 
-    public function __construct(UserRepository $userRepository) {
+    public function __construct(UserRepository $userRepository, GameRepository $gameRepository) {
         $this->userRepository = $userRepository;
+        $this->gameRepository = $gameRepository;
     }
 
     public function index(): void {
 
         $users = $this->userRepository->getAllUser();
+
+        if (isset($_SESSION['user_id']))
+        {
+            $userId = filter_var($_SESSION['user_id'], FILTER_VALIDATE_INT);
+            $recommendedGames = $this->gameRepository->getRecommendedGamesByUserId($userId);
+        }
 
         require_once __DIR__ . '/../views/home/index.php';
     }

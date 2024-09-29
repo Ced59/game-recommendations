@@ -19,10 +19,47 @@
         <a href="/GameRating/my-ratings.php" class="btn btn-primary ms-2">Voir mes notes</a>
     </div>
 
-    <form class="text-center" action="/GameRating/index.php" method="post">
-        <input type="hidden" name="action_name" value="logout">
-        <button type="submit" class="btn btn-secondary">Se déconnecter</button>
-    </form>
+
+    <?php /* @var $recommendedGames GameWithAverageRating[] */ ?>
+    <?php if (isset($recommendedGames) && count($recommendedGames) > 0): ?>
+        <div class="row">
+            <div class="text-center mt-4 mb-4">
+                <p>Tes recommandations:</p>
+            </div>
+            <?php
+            foreach ($recommendedGames->getRatedGames() as $game):
+                ?>
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <a href="/GameRating/games.php?idGame=<?= $game->getId() ?>" class="card text-decoration-none">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $game->getTitle() ?></h5>
+                            <p class="card-text">Développeur: <?= $game->getDeveloper() ?></p>
+                            <p class="card-text">Genre: <?= $game->getGenre() ?></p>
+                            <p class="card-text">Description: <?= $game->getDescription() ?></p>
+                            <p class="card-text">Année de sortie: <?= $game->getReleaseYear() ?></p>
+                            <p class="card-text">Ta note: <?= $game->getRating() ?></p>
+                        </div>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <div class="row mt-5 mb-5">
+            <div class="text-center">
+                <p>Tu n'as pas encore de jeu recommandé.</p>
+                <p>Note des jeux pour qu'ils apparaissent.</p>
+                <a href="/GameRating/games.php" class="btn btn-primary ms-2">Voir tous les jeux</a>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <div class="row mt-5">
+        <form class="text-center" action="/GameRating/index.php" method="post">
+            <input type="hidden" name="action_name" value="logout">
+            <button type="submit" class="btn btn-secondary">Se déconnecter</button>
+        </form>
+    </div>
+
 <?php else: ?>
 
     <div class="row">
@@ -66,7 +103,8 @@
 
     <div class="row mt-5">
         <div class="text-center mt-3 mb-3">
-            <p class="text-center mt-2 mb-3">Vous ne voulez pas vous authentifier? Vous pouvez voir la liste des jeux ci-dessous.</p>
+            <p class="text-center mt-2 mb-3">Vous ne voulez pas vous authentifier? Vous pouvez voir la liste des jeux
+                ci-dessous.</p>
             <a href="/GameRating/games.php" class="btn btn-primary ms-2">Voir tous les jeux</a>
         </div>
     </div>

@@ -43,7 +43,7 @@ $userRepository = new UserRepository($pdo);
     // implémentation du routing
     if ($url == '/GameRating/' || $url == '/GameRating/index.php') {
         require_once 'controllers/HomeController.php';
-        $controller = new HomeController($userRepository);
+        $controller = new HomeController($userRepository, $gameRepository);
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action_name'] === 'login') {
             $controller->login();
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action_name'] === 'register') {
