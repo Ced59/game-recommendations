@@ -211,25 +211,46 @@ class GameRepository {
 
     public function getRecommendedGamesWithAverageRatingsByUserId(int $userId): array {
         $query = "
-            SELECT g.id AS game_id, g.title, g.developer, g.genre, g.description, g.release_year, AVG(ur.rating) AS average_rating
+            SELECT 
+                g.id AS game_id,
+                g.title,
+                g.developer,
+                g.genre,
+                g.description,
+                g.release_year,
+                gwa.average_rating 
             FROM games g
-            LEFT JOIN user_ratings ur ON ur.game_id = g.id
-            WHERE g.genre = (
-                SELECT genre
-                FROM games g2
-                INNER JOIN user_ratings ur2 ON ur2.game_id = g2.id
-                WHERE ur2.user_id = :userId
-                GROUP BY g2.genre
-                ORDER BY AVG(ur2.rating) DESC
-                LIMIT 1
-            )
+            JOIN games_with_average_ratings gwa ON g.id = gwa.game_id
+            WHERE 
+                g.genre IN (
+                    SELECT genre
+                    FROM (
+                            SELECT 
+                            g.genre, 
+                            AVG(r.rating) AS avg_rating
+                            FROM user_ratings r
+                            JOIN games g ON r.game_id = g.id
+                            WHERE r.user_id = :userId
+                            GROUP BY g.genre
+                        ) AS genre_ratings
+                    WHERE avg_rating = (
+                            SELECT MAX(avg_rating) 
+                            FROM (
+                                    SELECT AVG(r.rating) as avg_rating
+                                    FROM games g
+                                    JOIN user_ratings r ON g.id = r.game_id
+                                    WHERE r.user_id = :userId
+                                    GROUP BY g.genre
+                                ) AS all_genre_ratings
+                        )
+                    )
             AND g.id NOT IN (
-                SELECT ur3.game_id
-                FROM user_ratings ur3
-                WHERE ur3.user_id = :userId
-            )
-            GROUP BY g.id
+                    SELECT game_id 
+                    FROM user_ratings 
+                    WHERE user_id = :userId
+                )
             ORDER BY average_rating DESC;";
+
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
