@@ -26,7 +26,7 @@ class GameController {
 
     public function index(): void {
 
-        $games = $this->gameRepository->getAllGames();
+        $games = $this->gameRepository->getAllGamesWithAverageRatings();
         $gamesCount = $this->gameRepository->getCountGames();
 
         require_once __DIR__ . "/../views/games/index.php";

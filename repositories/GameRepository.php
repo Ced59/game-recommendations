@@ -3,10 +3,11 @@
 namespace Repositories;
 
 require_once __DIR__ . '/../models/games/Game.php';
-require_once __DIR__ . '/../models/games/GameRating.php';
+require_once __DIR__ . '/../models/games/GameWithAverageRating.php';
 
 use Game;
 use GameRating;
+use GameWithAverageRating;
 use PDO;
 use PDOException;
 
@@ -17,22 +18,23 @@ class GameRepository {
         $this->pdo = $pdo;
     }
 
-    public function getAllGames(): array
+    public function getAllGamesWithAverageRatings(): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM games");
+        $stmt = $this->pdo->prepare("SELECT * FROM games_with_average_ratings");
         $stmt->execute();
 
         $gamesData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $games = [];
 
         foreach ($gamesData as $gameData) {
-            $game = new Game(
-                $gameData['id'],
+            $game = new GameWithAverageRating(
+                $gameData['game_id'],
                 $gameData['title'],
                 $gameData['developer'],
                 $gameData['genre'],
                 $gameData['description'],
-                $gameData['release_year']
+                $gameData['release_year'],
+                $gameData['average_rating']
             );
             $games[] = $game;
         }

@@ -8,7 +8,7 @@
 
 <div class="row">
     <?php
-    /* @var $games Game[] */
+    /* @var $games GameWithAverageRating[] */
     foreach ($games as $game):
         ?>
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
@@ -19,6 +19,11 @@
                     <p class="card-text">Genre: <?= $game->getGenre() ?></p>
                     <p class="card-text">Description: <?= $game->getDescription() ?></p>
                     <p class="card-text">Année de sortie: <?= $game->getReleaseYear() ?></p>
+                    <?php if ($game->getAverageRating() == null): ?>
+                        <p class="card-text">Note moyenne: non disponible</p>
+                    <?php else: ?>
+                        <p class="card-text">Note moyenne: <?= number_format($game->getAverageRating(), 2) ?></p>
+                    <?php endif; ?>
                 </div>
             </a>
         </div>
