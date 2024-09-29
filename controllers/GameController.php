@@ -4,9 +4,11 @@ namespace Controllers;
 
 require_once  __DIR__ . '/../utils/Auth.php';
 require_once  __DIR__ . '/../models/games/Game.php';
+require_once  __DIR__ . '/../models/games/GameRating.php';
 require_once  __DIR__ . '/../models/users/UserRatedGame.php';
 
 use Game;
+use GameRating;
 use Repositories\GameRepository;
 use Repositories\UserRepository;
 use UserRatedGame;
@@ -75,6 +77,9 @@ class GameController {
 
     public function viewGameDetail(): void
     {
+
+        // TODO methode à revoir! Faut trouver un moyen de la réécrire et de gérer les cas de facon plus propre! Plus gros problème => récupération en double du jeu!
+
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['idGame'])) {
             $gameId = filter_input(INPUT_GET, 'idGame', FILTER_VALIDATE_INT);
 
@@ -82,6 +87,27 @@ class GameController {
                 $game = $this->gameRepository->findGameById((int)$gameId);
 
                 if ($game != null) {
+
+                    $gameRated = new GameRating(
+                        $game->getId(),
+                        $game->getTitle(),
+                        $game->getDeveloper(),
+                        $game->getGenre(),
+                        $game->getDescription(),
+                        $game->getReleaseYear(),
+                        null
+                    );
+
+
+                    if (isset($_SESSION['user_id'])) {
+                        $userId = $_SESSION['user_id'];
+                        $gameWithRating = $this->gameRepository->getRatedGameByUserIdAndGameId($userId, $gameId);
+
+                        if (isset($gameWithRating)){
+                            $gameRated = $gameWithRating; // Définitivement il y a beaucoup mieux à faire dans cette méthode!!!
+                        }
+
+                    }
                     require_once __DIR__ . '/../views/games/detail-game.php';
                 } else {
                     $error = "Jeu non trouvé";

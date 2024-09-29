@@ -171,4 +171,39 @@ class GameRepository {
 
         return $ratedGames;
     }
+
+    public function getRatedGameByUserIdAndGameId(int $userId, int $gameId): ?GameRating {
+        $stmt = $this->pdo->prepare("
+            SELECT 
+                g.id AS game_id,
+                g.title AS game_title,
+                g.developer AS game_developer,
+                g.genre AS game_genre,
+                g.description AS game_description,
+                g.release_year AS game_release_year,
+                r.rating
+            FROM games g 
+            JOIN user_ratings r ON g.id = r.game_id
+            WHERE r.user_id = :userId AND g.id = :gameId
+        ");
+        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $stmt->bindParam(':gameId', $gameId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if ($row) {
+            return new GameRating(
+                $row['game_id'],
+                $row['game_title'],
+                $row['game_developer'],
+                $row['game_genre'],
+                $row['game_description'],
+                $row['game_release_year'],
+                $row['rating']
+            );
+        } else {
+            return null;
+        }
+    }
 }
