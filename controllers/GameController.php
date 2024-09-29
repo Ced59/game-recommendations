@@ -4,10 +4,12 @@ namespace Controllers;
 
 require_once  __DIR__ . '/../utils/Auth.php';
 require_once  __DIR__ . '/../models/games/Game.php';
+require_once  __DIR__ . '/../models/users/UserRatedGame.php';
 
 use Game;
 use Repositories\GameRepository;
 use Repositories\UserRepository;
+use UserRatedGame;
 use Utils\Auth;
 
 class GameController {
@@ -129,5 +131,31 @@ class GameController {
             header("Location: /GameRating/index.php");
             exit;
         }
+    }
+
+    public function viewRatings(): void
+    {
+        Auth::checkAuth();
+
+        $userId = filter_var($_SESSION['user_id'], FILTER_VALIDATE_INT);
+
+        if ($userId === false) {
+            $error = "Erreur : ID utilisateur invalide dans la session.";
+            require_once __DIR__ . '/../views/home/index.php';
+        }
+
+        $user = $this->userRepository->findUserById($userId);
+
+        $userRatedGame = new UserRatedGame(
+            $user->getPseudo(),
+            $user->getPassword(), // genre de données à ne pas récupérer et encore moins à afficher...
+            $user->getId()
+        );
+
+        $userRatedGame->addRatedGames($this->gameRepository->getRatedGamesByUserId($userId));
+
+        var_dump($userRatedGame);
+
+        require_once __DIR__ . '/../views/games/view-ratings.php';
     }
 }

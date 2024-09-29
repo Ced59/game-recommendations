@@ -33,6 +33,24 @@ class UserRepository {
         }
     }
 
+    public function findUserById(int $id): ?User {
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!empty($userData)) {
+            return new User(
+                $userData['pseudo'],
+                $userData['password'],
+                $userData['id']
+            );
+        } else {
+            return null;
+        }
+    }
+
     public function createUser(User $user): bool
     {
         $stmt = $this->pdo->prepare("INSERT INTO users (pseudo, password) VALUES (:pseudo, :password)");

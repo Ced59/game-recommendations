@@ -3,8 +3,10 @@
 namespace Repositories;
 
 require_once __DIR__ . '/../models/games/Game.php';
+require_once __DIR__ . '/../models/games/GameRating.php';
 
 use Game;
+use GameRating;
 use PDO;
 use PDOException;
 
@@ -134,5 +136,39 @@ class GameRepository {
         $count = $stmt->fetchColumn();
 
         return $count > 0;
+    }
+
+    public function getRatedGamesByUserId(int $userId): array {
+        $stmt = $this->pdo->prepare("
+        SELECT 
+            g.id AS game_id,
+            g.title AS game_title,
+            g.developer AS game_developer,
+            g.genre AS game_genre,
+            g.description AS game_description,
+            g.release_year AS game_release_year,
+            r.rating
+        FROM games g 
+        JOIN user_ratings r ON g.id = r.game_id
+        WHERE r.user_id = :userId
+    ");
+        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $ratedGames = [];
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            $gameRating = new GameRating(
+                $row['game_id'],
+                $row['game_title'],
+                $row['game_developer'],
+                $row['game_genre'],
+                $row['game_description'],
+                $row['game_release_year'],
+                $row['rating']
+            );
+            $ratedGames[] = $gameRating;
+        }
+
+        return $ratedGames;
     }
 }

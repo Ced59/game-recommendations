@@ -14,7 +14,7 @@
     <div class="text-center mt-3 mb-3">
         <a href="/GameRating/add-game.php" class="btn btn-primary">Ajouter un jeu</a>
         <a href="/GameRating/games.php" class="btn btn-primary ms-2">Voir tous les jeux</a>
-        <a href="/GameRating/games.php" class="btn btn-primary ms-2">Voir mes notes</a>
+        <a href="/GameRating/my-ratings.php" class="btn btn-primary ms-2">Voir mes notes</a>
     </div>
 
     <form class="text-center" action="/GameRating/index.php" method="post">
