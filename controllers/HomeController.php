@@ -22,7 +22,7 @@ class HomeController {
         if (isset($_SESSION['user_id']))
         {
             $userId = filter_var($_SESSION['user_id'], FILTER_VALIDATE_INT);
-            $recommendedGames = $this->gameRepository->getRecommendedGamesByUserId($userId);
+            $recommendedGames = $this->gameRepository->getRecommendedGamesWithAverageRatingsByUserId($userId);
         }
 
         require_once __DIR__ . '/../views/home/index.php';

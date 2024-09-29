@@ -27,7 +27,7 @@
                 <p>Tes recommandations:</p>
             </div>
             <?php
-            foreach ($recommendedGames->getRatedGames() as $game):
+            foreach ($recommendedGames as $game):
                 ?>
                 <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                     <a href="/GameRating/games.php?idGame=<?= $game->getId() ?>" class="card text-decoration-none">
@@ -37,7 +37,11 @@
                             <p class="card-text">Genre: <?= $game->getGenre() ?></p>
                             <p class="card-text">Description: <?= $game->getDescription() ?></p>
                             <p class="card-text">Année de sortie: <?= $game->getReleaseYear() ?></p>
-                            <p class="card-text">Ta note: <?= $game->getRating() ?></p>
+                            <?php if ($game->getAverageRating() == null): ?>
+                                <p class="card-text">Note moyenne: non disponible</p>
+                            <?php else: ?>
+                                <p class="card-text">Note moyenne: <?= number_format($game->getAverageRating(), 2) ?></p>
+                            <?php endif; ?>
                         </div>
                     </a>
                 </div>

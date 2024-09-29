@@ -208,4 +208,47 @@ class GameRepository {
             return null;
         }
     }
+
+    public function getRecommendedGamesWithAverageRatingsByUserId(int $userId): array {
+        $query = "
+            SELECT g.id AS game_id, g.title, g.developer, g.genre, g.description, g.release_year, AVG(ur.rating) AS average_rating
+            FROM games g
+            LEFT JOIN user_ratings ur ON ur.game_id = g.id
+            WHERE g.genre = (
+                SELECT genre
+                FROM games g2
+                INNER JOIN user_ratings ur2 ON ur2.game_id = g2.id
+                WHERE ur2.user_id = :userId
+                GROUP BY g2.genre
+                ORDER BY AVG(ur2.rating) DESC
+                LIMIT 1
+            )
+            AND g.id NOT IN (
+                SELECT ur3.game_id
+                FROM user_ratings ur3
+                WHERE ur3.user_id = :userId
+            )
+            GROUP BY g.id
+            ORDER BY average_rating DESC;";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $games = [];
+        while ($gameData = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $games[] = new GameWithAverageRating(
+                $gameData['game_id'],
+                $gameData['title'],
+                $gameData['developer'],
+                $gameData['genre'],
+                $gameData['description'],
+                $gameData['release_year'],
+                $gameData['average_rating']
+            );
+        }
+
+        return $games;
+    }
+
 }
