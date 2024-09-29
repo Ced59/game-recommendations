@@ -8,8 +8,10 @@
         </div>
     </div>
 
-    <p class="text-center">Vous êtes authentifié en tant que <?= htmlspecialchars($_SESSION['pseudo'], ENT_QUOTES, 'UTF-8') ?></p>
-    <p class="text-center mt-2 mb-3">Pour noter un jeu, allez sur la page "Voir tous les jeux" et cliquez sur celui que vous voulez noter.</p>
+    <p class="text-center">Vous êtes authentifié en tant
+        que <?= htmlspecialchars($_SESSION['pseudo'], ENT_QUOTES, 'UTF-8') ?></p>
+    <p class="text-center mt-2 mb-3">Pour noter un jeu, allez sur la page "Voir tous les jeux" et cliquez sur celui que
+        vous voulez noter.</p>
 
     <div class="text-center mt-3 mb-3">
         <a href="/GameRating/add-game.php" class="btn btn-primary">Ajouter un jeu</a>
@@ -63,6 +65,13 @@
     </div>
 
     <div class="row mt-5">
+        <div class="text-center mt-3 mb-3">
+            <p class="text-center mt-2 mb-3">Vous ne voulez pas vous authentifier? Vous pouvez voir la liste des jeux ci-dessous.</p>
+            <a href="/GameRating/games.php" class="btn btn-primary ms-2">Voir tous les jeux</a>
+        </div>
+    </div>
+
+    <div class="row mt-5">
         <div class="col-12">
             <table class="table table-bordered table-striped">
                 <thead class="thead-light">
@@ -86,7 +95,8 @@
                                 <input type="hidden" name="action_name" value="login">
                                 <input type="hidden" name="pseudo" value="<?= $user->getPseudo() ?>">
                                 <input type="hidden" name="password" value="<?= $user->getPassword() ?>">
-                                <button type="submit" class="btn btn-success">S'authentifier avec cet utilisateur</button>
+                                <button type="submit" class="btn btn-success">S'authentifier avec cet utilisateur
+                                </button>
                             </form>
                         </td>
                     </tr>
