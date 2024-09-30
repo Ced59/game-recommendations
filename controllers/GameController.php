@@ -150,11 +150,11 @@ class GameController {
                 $_SESSION['error'] = "Une erreur est survenue lors de l'enregistrement de la note.";
             }
 
-            header("Location: /GameRating/games.php?idGame=$gameId");
+            header("Location: /games.php?idGame=$gameId");
             exit;
 
         } else {
-            header("Location: /GameRating/index.php");
+            header("Location: /index.php");
             exit;
         }
     }

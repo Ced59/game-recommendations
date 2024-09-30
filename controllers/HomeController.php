@@ -48,7 +48,7 @@ class HomeController {
                 }
                 $_SESSION['user_id'] = $user->getId();
                 $_SESSION['pseudo'] = $user->getPseudo();
-                header('Location: /GameRating/index.php');
+                header('Location: /index.php');
                 exit();
             }
         } else {
@@ -83,7 +83,7 @@ class HomeController {
 
     public function logout(): void {
         session_destroy();
-        header('Location: /GameRating/index.php');
+        header('Location: /index.php');
         exit();
     }
 }

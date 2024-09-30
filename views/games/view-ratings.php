@@ -11,7 +11,7 @@
         foreach ($userRatedGame->getRatedGames() as $game):
             ?>
             <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                <a href="/GameRating/games.php?idGame=<?= $game->getId() ?>" class="card text-decoration-none">
+                <a href="/games.php?idGame=<?= $game->getId() ?>" class="card text-decoration-none">
                     <div class="card-body">
                         <h5 class="card-title"><?= $game->getTitle() ?></h5>
                         <p class="card-text">Développeur: <?= $game->getDeveloper() ?></p>
@@ -28,6 +28,6 @@
 <?php else: ?>
     <div class="text-center">
         <p>Tu n'as pas encore noté de jeu</p>
-        <a href="/GameRating/games.php" class="btn btn-primary ms-2">Voir tous les jeux</a>
+        <a href="/games.php" class="btn btn-primary ms-2">Voir tous les jeux</a>
     </div>
 <?php endif; ?>

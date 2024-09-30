@@ -12,7 +12,7 @@
     foreach ($games as $game):
         ?>
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-            <a href="/GameRating/games.php?idGame=<?= $game->getId() ?>" class="card text-decoration-none">
+            <a href="/games.php?idGame=<?= $game->getId() ?>" class="card text-decoration-none">
                 <div class="card-body">
                     <h5 class="card-title"><?= $game->getTitle() ?></h5>
                     <p class="card-text">Développeur: <?= $game->getDeveloper() ?></p>

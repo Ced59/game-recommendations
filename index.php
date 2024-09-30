@@ -41,7 +41,7 @@ $userRepository = new UserRepository($pdo);
     $url = $_SERVER['REQUEST_URI'];
 
     // implémentation du routing
-    if ($url == '/GameRating/' || $url == '/GameRating/index.php') {
+    if ($url == '/' || $url == '/index.php') {
         require_once 'controllers/HomeController.php';
         $controller = new HomeController($userRepository, $gameRepository);
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action_name'] === 'login') {
@@ -53,23 +53,23 @@ $userRepository = new UserRepository($pdo);
         } else {
             $controller->index();
         }
-    } elseif (str_contains($url, '/GameRating/games.php?') && isset($_GET['idGame'])) {
+    } elseif (str_contains($url, '/games.php?') && isset($_GET['idGame'])) {
         require_once 'controllers/GameController.php';
         $controller = new GameController($gameRepository, $userRepository);
         $controller->viewGameDetail();
-    } elseif ($url == '/GameRating/games.php' && isset($_POST['action_name']) && $_POST['action_name'] === 'rating') {
+    } elseif ($url == '/games.php' && isset($_POST['action_name']) && $_POST['action_name'] === 'rating') {
         require_once 'controllers/GameController.php';
         $controller = new GameController($gameRepository, $userRepository);
         $controller->ratingGame();
-    } elseif ($url == '/GameRating/games.php') {
+    } elseif ($url == '/games.php') {
         require_once 'controllers/GameController.php';
         $controller = new GameController($gameRepository, $userRepository);
         $controller->index();
-    } elseif ($url == '/GameRating/add-game.php') {
+    } elseif ($url == '/add-game.php') {
         require_once 'controllers/GameController.php';
         $controller = new GameController($gameRepository, $userRepository);
         $controller->addGame();
-    } elseif ($url == '/GameRating/my-ratings.php') {
+    } elseif ($url == '/my-ratings.php') {
         require_once 'controllers/GameController.php';
         $controller = new GameController($gameRepository, $userRepository);
         $controller->viewRatings();

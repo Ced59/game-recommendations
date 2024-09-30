@@ -8,7 +8,7 @@
 
 <?php include __DIR__ . '/../partials/messages.php'; ?>
 
-<form action="/GameRating/add-game.php" method="post" class="col-md-6 offset-md-3">
+<form action="/add-game.php" method="post" class="col-md-6 offset-md-3">
     <input type="hidden" name="action_name" value="add_game">
 
     <div class="form-group">

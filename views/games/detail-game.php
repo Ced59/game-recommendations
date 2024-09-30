@@ -31,7 +31,7 @@
                 <div class="card-body">
                     <?php if (isset($gameRated) && $gameRated->getRating() == null): ?>
                         <h5 class="card-title text-center">Noter ce jeu</h5>
-                        <form action="/GameRating/games.php" method="post">
+                        <form action="/games.php" method="post">
                             <input type="hidden" name="action_name" value="rating">
                             <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
                             <input type="hidden" name="idGame" value="<?= $gameRated->getId() ?>">

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/GameRating/">GameRating</a>
+        <a class="navbar-brand" href="/">GameRating</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -12,7 +12,7 @@
                         <span class="navbar-text me-3">Vous êtes connecté en tant que <?= htmlspecialchars($_SESSION['pseudo'], ENT_QUOTES, 'UTF-8') ?></span>
                     </li>
                     <li class="nav-item">
-                        <form action="/GameRating/index.php" method="post" class="d-inline">
+                        <form action="/index.php" method="post" class="d-inline">
                             <input type="hidden" name="action_name" value="logout">
                             <button type="submit" class="btn btn-link nav-link">Se déconnecter</button>
                         </form>
